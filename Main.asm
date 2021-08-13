@@ -75,8 +75,7 @@
 
 
 ;****************Definicion de variables********************************
-
-
+;prueba a branch Alan
 ;****************Main **************************************************
 			ORG     0x000             	;reset vector
   			GOTO    MAIN              	;go to the main routine
