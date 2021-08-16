@@ -74,15 +74,21 @@
   CONFIG  EBTRB = OFF           ; Boot Block Table Read Protection bit (Boot block (000000-0007FFh) is not protected from table reads executed in other blocks)
 
 
+
 ;****************Definicion de variables********************************
-;prueba a branch Alan
+	     
+INPUT		    EQU	  0x01		     
+CONSTANT		MASK	= 0b00001111
+
+
+
 ;****************Main **************************************************
 			ORG     0x000             	;reset vector
   			GOTO    MAIN              	;go to the main routine
 
 INITIALIZE:
 		    
-			MOVLW 0x0F
+			MOVLW 0x0F			;todas entradas digitales
 			MOVWF ADCON1
 			
 			SETF	TRISB			;PORTB como entrada
@@ -91,13 +97,16 @@ INITIALIZE:
 			RETURN			
 
 MAIN:
-			CALL 	INITIALIZE
-
+		CALL 	INITIALIZE
 LOOP:
+    	
+			MOVF	PORTB, W
+			ANDLW	MASK
+			MOVWF   INPUT
+				
+    
     			
 			END                       	;fin del programa
-
-
 
 
 
