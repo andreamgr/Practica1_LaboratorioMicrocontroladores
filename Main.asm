@@ -51,6 +51,12 @@ OUTPUT_dos:
 OUTPUT_tres:
     retlw	0x4
     MOVWF	PORTD,c
+    
+;PARA SUMAR AMBOS
+
+            MOVF	PORTB, w
+			ANDLW	MASK
+			MOVWF   INPUT
 
 
 
