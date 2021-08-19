@@ -76,46 +76,101 @@ PSECT udata
 	
 			ORG     0x000             	;reset vector
   			GOTO    MAIN              	;go to the main routine
-
+			
 INITIALIZE:
 		    
 			MOVLW 0x0F			;todas entradas digitales
+			MOVWF ADCON1
 			MOVWF ADCON1,c
 			
 			SETF	LATB,c			;PORTB como entrada
 			CLRF	LATD,c			;PORTD como salida
 			SETF	TRISB,c			;PORTB como entrada
 			CLRF	TRISD,c			;PORTD como salida
+			
+			SETF	TRISB			;PORTB como entrada
+			CLRF	TRISD			;PORTD como salida
 
 			RETURN			
 
-MAIN:
-		CALL 	INITIALIZE
+@@ -101,12 +104,79 @@ MAIN:
 LOOP:
     	
-			MOVF	PORTB, W ;mover portb al acumulador
-			ANDLW	0b00001111	    ;aplicar and (mascara)
+			MOVF	PORTB, W
+			ANDLW	MASK
+			ANDLW	Ox0F                  ;15
 			MOVWF   INPUT
+				
 			
-			MOVLW	0		    ;mover cero al acumulador
-			SUBWF	INPUT,	W	    ;restar 0 a la entrada
-			BZ	CERO		    ;caso 0 
+			MOVF	PORTB, W
+			ANDLW	OxF0
+			MOVWF   INPUT2
 			
-CERO:
-						    ;salida 0 en display
-		    BSF PORTD, 0    
-		    BSF PORTD, 1
-		    BSF PORTD, 2
-		    BSF PORTD, 3
-		    BSF PORTD, 4
-		    BSF PORTD, 5
-		    BSF PORTD, 6
-		    BCF PORTD, 7
-		    GOTO LOOP
+			MOVF	PORTB, W
+			ANDLW	Ox0F
+			MOVWF   INPUT3
+			
+			MOVLW   0X00
+			SUBWF   INPUT, W
+			BZ      CERO
+			
+			MOVLW   0X01
+			SUBWF   INPUT, W
+			BZ      UNO
+			
+			MOVLW   0X04
+			SUBWF   INPUT, W
+			BZ      CUATRO
+			
+			
+			
+			BRA   DEFAULT 
+
+CERO:                 
+                        BSF PORTD, 0
+			BSF PORTD, 1
+			BSF PORTD, 2
+			BSF PORTD, 3
+			BSF PORTD, 4
+			BSF PORTD, 5
+			BCF PORTD, 6
+			GOTO LOOP 
+			
+UNO:                 
+                        BCF PORTD, 0
+			BSF PORTD, 1
+			BSF PORTD, 2
+			BCF PORTD, 3
+			BCF PORTD, 4
+			BCF PORTD, 5
+			BCF PORTD, 6
+CUATRO:                 
+                        BCF PORTD, 0
+			BSF PORTD, 1
+			BSF PORTD, 2
+			BCF PORTD, 3
+			BCF PORTD, 4
+			BSF PORTD, 5
+			BSF PORTD, 6
+			
+
+			
+DEFAULT: 
+
+                        BSF PORTD, 0
+			BSF PORTD, 1
+			BCF PORTD, 2
+			BSF PORTD, 3
+			BSF PORTD, 4
+			BSF PORTD, 5
+			BCF PORTD, 6
+
+			
 		
-		
-			
-   
+    
     			
 			END                       	;fin del programa
+			
+			
+
 
