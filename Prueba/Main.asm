@@ -89,10 +89,13 @@ CONSTANT		MASK	= 0b00001111
 INITIALIZE:
 		    
 			MOVLW 0x0F			;todas entradas digitales
-			MOVWF ADCON1
+			MOVWF ADCON1,c
 			
-			SETF	TRISB			;PORTB como entrada
-			CLRF	TRISD			;PORTD como salida
+			SETF	LATB,c			;PORTB como entrada
+			CLRF	LATD,c			;PORTD como salida
+			SETF	TRISB,c			;PORTB como entrada
+			CLRF	TRISD,c			;PORTD como salida
+			
 
 			RETURN			
 
@@ -101,12 +104,79 @@ MAIN:
 LOOP:
     	
 			MOVF	PORTB, W
-			ANDLW	MASK
+			ANDLW	Ox0F                  ;15
 			MOVWF   INPUT
-				
+			
+			MOVF	PORTB, W
+			ANDLW	OxF0
+			MOVWF   INPUT2
+			
+			MOVF	PORTB, W
+			ANDLW	Ox0F
+			MOVWF   INPUT3
+			
+			MOVLW   0X00
+			SUBWF   INPUT, W
+			BZ      CERO
+			
+			MOVLW   0X01
+			SUBWF   INPUT, W
+			BZ      UNO
+			
+			MOVLW   0X04
+			SUBWF   INPUT, W
+			BZ      CUATRO
+			
+			
+			
+			BRA   DEFAULT 
+
+CERO:                 
+                        BSF PORTD, 0
+			BSF PORTD, 1
+			BSF PORTD, 2
+			BSF PORTD, 3
+			BSF PORTD, 4
+			BSF PORTD, 5
+			BCF PORTD, 6
+			GOTO LOOP 
+			
+UNO:                 
+                        BCF PORTD, 0
+			BSF PORTD, 1
+			BSF PORTD, 2
+			BCF PORTD, 3
+			BCF PORTD, 4
+			BCF PORTD, 5
+			BCF PORTD, 6
+CUATRO:                 
+                        BCF PORTD, 0
+			BSF PORTD, 1
+			BSF PORTD, 2
+			BCF PORTD, 3
+			BCF PORTD, 4
+			BSF PORTD, 5
+			BSF PORTD, 6
+			
+
+			
+DEFAULT: 
+
+                        BSF PORTD, 0
+			BSF PORTD, 1
+			BCF PORTD, 2
+			BSF PORTD, 3
+			BSF PORTD, 4
+			BSF PORTD, 5
+			BCF PORTD, 6
+
+			
+		
     
     			
 			END                       	;fin del programa
+			
+			
 
 
 
