@@ -57,6 +57,7 @@ OUTPUT_tres:
             MOVF	PORTB, w
 			ANDLW	MASK
 			MOVWF   INPUT
+////////////////////////////////////////////////////////////////
 
 
 
