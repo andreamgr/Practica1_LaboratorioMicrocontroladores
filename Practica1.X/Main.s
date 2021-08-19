@@ -112,6 +112,26 @@ CERO:
 		    BSF PORTD, 6
 		    BCF PORTD, 7
 		    GOTO LOOP
+		    
+		    
+UNO:                 
+                        BCF PORTD, 0
+			BSF PORTD, 1
+			BSF PORTD, 2
+			BCF PORTD, 3
+			BCF PORTD, 4
+			BCF PORTD, 5
+			BCF PORTD, 6
+			GOTO LOOP
+CUATRO:                 
+                        BCF PORTD, 0
+			BSF PORTD, 1
+			BSF PORTD, 2
+			BCF PORTD, 3
+			BCF PORTD, 4
+			BSF PORTD, 5
+			BSF PORTD, 6
+			GOTO LOOP
 		
 		
 			
