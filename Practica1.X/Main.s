@@ -103,15 +103,7 @@ LOOP:
 			
 CERO:
 						    ;salida 0 en display
-		    BSF PORTD, 0    
-		    BSF PORTD, 1
-		    BSF PORTD, 2
-		    BSF PORTD, 3
-		    BSF PORTD, 4
-		    BSF PORTD, 5
-		    BSF PORTD, 6
-		    BCF PORTD, 7
-		    GOTO LOOP
+		
 		
 		
 			
